@@ -1,0 +1,11 @@
+main.c
+    readMapFromFile();
+    drawMap();
+    drawScore();
+    updateMenu();
+    drawMenu();
+
+
+snake.h & snake.c
+    void gameover();
+
