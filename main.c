@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include "screenKTU.h"
 #include "snake.h"
+#include "globals.h"
 
 
 // -------------------- FUNCTION HEADERS --------------------
@@ -27,6 +28,7 @@ void drawMenu();   // TODO
 // -------------------------- MAIN --------------------------
 int main()
 {
+    /**/
     setCursorForm(0); // Makes cursor invisible
     restart();
 
@@ -41,6 +43,7 @@ int main()
 
         updateSnake();
         drawSnake();
+
 //        debugSnake();
     }
 
@@ -61,27 +64,27 @@ void readMapFromFile(char filename[])
 
 void drawMap()
 {
-    // Cude map borders
+    // Crude map borders
     setBackColor(MAP_COL);
     drawBorder(mapToWorldY(-1), mapToWorldX(0) * 2 - 1, MAP_H + 2, MAP_W * 2 + 2, ' ');
     drawBorder(mapToWorldY(-1), mapToWorldX(0) * 2 - 2, MAP_H + 2, MAP_W * 2 + 4, ' ');
-//    for (int i = mapToWorldX(0); i < mapToWorldX(0) + MAP_W; ++i)
+//    for (int i = map  ToWorldX(0); i < mapToWorldX(0) + MAP_W; ++i)
 //        putChar()
 
 
-/* Debug code
-    for (int i = 0; i < WIN_H; ++i)
-    {
-        for (int j = 0; j < WIN_W; ++j)
+    /* Debug code
+        for (int i = 0; i < WIN_H; ++i)
         {
-            if (my_map[i][j] != MAP_EMPTY)
+            for (int j = 0; j < WIN_W; ++j)
             {
-                setBackColor(RED);
-                putChar2(i, j, ' ');
+                if (my_map[i][j] != MAP_EMPTY)
+                {
+                    setBackColor(RED);
+                    putChar2(i, j, ' ');
+                }
             }
         }
-    }
-*/
+    */
 }
 
 void drawScore()
