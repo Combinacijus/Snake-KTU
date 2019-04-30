@@ -1,5 +1,13 @@
 #include "globals.h"
 
+struct Snake snake;
+struct Food food, food_spec;
+int my_map[WIN_H][WIN_W];
+int rainbow[RAINBOW_N];
+bool rainbow_mode_enabled = false;
+int rainbow[RAINBOW_N] = {-4, 4, 6, 2, -5, -7, 5};
+
+
 char getKeyInput()
 {
     char c = 0;

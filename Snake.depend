@@ -1,0 +1,34 @@
+# depslib dependency file v1.0
+1556660391 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"screenKTU.h"
+	"snake.h"
+	"globals.h"
+
+1555858785 c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\screenktu.h
+	<stdio.h>
+	<conio.h>
+	<time.h>
+	<windows.h>
+
+1555858825 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\screenktu.c
+	"screenKTU.h"
+
+1556659475 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\snake.c
+	"snake.h"
+
+1556659634 c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\snake.h
+	<stdio.h>
+	<stdbool.h>
+	"screenKTU.h"
+	"globals.h"
+
+1556660577 c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\globals.h
+	<stdbool.h>
+	<stdio.h>
+
+1556659171 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\globals.c
+	"globals.h"
+

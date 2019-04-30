@@ -6,6 +6,7 @@ void initSnake()
     snake.head = START_LEN - 1;
     snake.len = START_LEN;
     snake.dir = 'd';
+    rainbow_mode_enabled = false;
 
     int start_y = mapToWorldY(0) + MAP_H / 2; // Starting y position
     int start_x = mapToWorldX(0) + MAP_W / 2; // Starting x position
@@ -40,7 +41,8 @@ void initSnake()
 
 void drawSnake()
 {
-    int ind = 0; // Temporary index
+    int ind = 0;                // Temporary index
+    static int ind_col = 0;     // Index for rainbow color
     // Clear last segment
     setBackColor(BACK_COL);
     ind = warpIndex(snake.head - snake.len, SEG_NUM);
@@ -52,7 +54,16 @@ void drawSnake()
     putChar2(snake.pos[ind].y, snake.pos[ind].x, ' ');
 
     // Draw segment No2
-    setBackColor(SNK_COL);
+    if (rainbow_mode_enabled)
+    {
+        setBackColor(rainbow[ind_col]);
+        ind_col = warpIndex(++ind_col, RAINBOW_N);
+    }
+    else
+    {
+        setBackColor(SNK_COL);
+    }
+
     ind = warpIndex(snake.head - 1, SEG_NUM);
     putChar2(snake.pos[ind].y, snake.pos[ind].x, ' ');
 }
@@ -167,8 +178,6 @@ void gameover()
     goRC(0, 0);
     printf("Game Over. Press any key to continue");
 
-    // HERE /\
-
     Sleep(1000);
 
 
@@ -181,7 +190,7 @@ void gameover()
                 my_map[i][j] = MAP_EMPTY;
         }
     }
-    fflush(stdin);
+
     waitForAnyKey();
     system("cls");
     restart();
@@ -220,15 +229,20 @@ void updateFood()
     {
         addSnakeSegment();
         food_spec.enabled = false;
+        rainbow_mode_enabled = true;
     }
 
     food_spec.time_left -= 1;
+
     if (food_spec.time_left == 0 && food_spec.enabled)
     {
         food_spec.enabled = false;
         setBackColor(BACK_COL);
         putChar2(food_spec.pos.y, food_spec.pos.x, ' '); // Clear food
     }
+
+    if (food_spec.time_left <= -FOOD_GEN_TIME / 2)
+        rainbow_mode_enabled = false;
 
     if (food_spec.time_left <= -FOOD_GEN_TIME)
         placeFoodRandomly(&food_spec);
@@ -247,5 +261,3 @@ void placeFoodRandomly(struct Food *_food)
     _food->time_left = FOOD_LIFETIME;
     setBackColor(BLUE);
 }
-
-

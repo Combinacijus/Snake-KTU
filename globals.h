@@ -14,6 +14,7 @@
 #define SNK_H_COL WHITE         // Snake head color
 #define START_LEN 5             // Snake starting length
 #define FPS 15                  // Frame rate / Snake speed
+#define RAINBOW_N 7             // Number of rainbow segments
 
 // Food values
 #define FOOD_COL YELLOW         // Food color
@@ -51,12 +52,14 @@ struct Snake
 };
 
 
-struct Snake snake;
-struct Food food, food_spec;
-int my_map[WIN_H][WIN_W];      // Data of map and collision map
+extern struct Snake snake;
+extern struct Food food, food_spec;
+extern int my_map[WIN_H][WIN_W];        // Data of map and collision
+extern int rainbow[RAINBOW_N];          // Rainbow color palette
+extern bool rainbow_mode_enabled;       // Is rainbow mode on
 
 
-char getKeyInput(); // Returns key pressed
+char getKeyInput();                     // Returns key pressed
 int warpIndex(int ind, int len);
 int warpIndex2(int ind, int a, int b);
 void waitForAnyKey();
