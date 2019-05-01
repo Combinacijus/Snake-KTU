@@ -1,11 +1,13 @@
 #include "globals.h"
 
+// Global variables definition
 struct Snake snake;
 struct Food food, food_spec;
-int my_map[WIN_H][WIN_W];
+int my_map[MAP_H][MAP_W];
 int rainbow[RAINBOW_N];
 bool rainbow_mode_enabled = false;
 int rainbow[RAINBOW_N] = {-4, 4, 6, 2, -5, -7, 5};
+int score = 0;
 
 
 char getKeyInput()
@@ -40,19 +42,33 @@ int warpIndex2(int ind, int a, int b)
 
 void waitForAnyKey()
 {
-    while(!kbhit()){}
+    while(!kbhit());
+}
+
+void flushInputBuffer()
+{
+    while (kbhit())
+        getch();
 }
 
 int mapToWorldY(int y)
 {
-    // Returns realative y coordinate to the map
     int offset = (WIN_H - MAP_H) / 2;
     return y + offset;
 }
 
 int mapToWorldX(int x)
 {
-    // Returns realative x coordinate to the map
     int offset = WIN_W - MAP_W - 5;
     return x + offset;
+}
+
+int worldToMapY(int y)
+{
+    return y - mapToWorldY(0);
+}
+
+int worldToMapX(int x)
+{
+    return x - mapToWorldX(0);
 }

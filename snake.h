@@ -13,8 +13,11 @@ void snakeUpdateCollisionMap();
 bool hasSnakeCollided();
 void addSnakeSegment();
 void debugSnake();
-void gameover(); // TODO
 
+void gameover();
+void drawGameOverScreen(); // TODO
+
+void initFood();
 void drawFood();
 void updateFood();
 void placeFoodRandomly(struct Food *_food);

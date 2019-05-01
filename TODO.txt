@@ -1,11 +1,22 @@
 main.c
-    readMapFromFile();
-    drawMap();
+    *readMapFromFile();
+    *drawMap();
     drawScore();
     updateMenu();
     drawMenu();
 
-
 snake.h & snake.c
-    void gameover();
+    void drawGameOverScreen();
+
+Create more maps:
+    map size is 20 x 20
+    0 - empty
+    1 - wall
+    fill all 20x20 matrix
+    don't put wall on the snake
+    increment MAPS_COUNT in globals.h
+
+Highscores:
+    data saved in a file
+    name: score
 
