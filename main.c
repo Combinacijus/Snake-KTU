@@ -53,43 +53,73 @@ int main()
 // ------------------ FUNCTION DEFINITIONS ------------------
 void restart()
 {
-    drawMap(); // Map is drawn once
+    readMapFromFile("map2.txt");    // TODO make map selection in menu
+    drawMap();                      // Map is drawn once
     initSnake();
+    initFood();
 }
 
 void readMapFromFile(char filename[])
 {
-    // Read map data from a file
+    FILE *f;
+    f = fopen(filename, "r");
+    char ch;
+
+    goRC(0,0);
+    for (int i = 0; i < MAP_H; ++i)
+    {
+        for (int j = 0; j < MAP_W; ++j)
+        {
+            ch = getc(f);
+            ch -= '0'; // To int
+            my_map[i][j] = ch;
+        }
+        getc(f);        // Discards new line character
+    }
+
+    fclose(f);
 }
 
 void drawMap()
 {
-    // Crude map borders
-    setBackColor(MAP_COL);
+    // Default wapr borders around map
+    setBackColor(MAP_COL - BRIGHT);
     drawBorder(mapToWorldY(-1), mapToWorldX(0) * 2 - 1, MAP_H + 2, MAP_W * 2 + 2, ' ');
     drawBorder(mapToWorldY(-1), mapToWorldX(0) * 2 - 2, MAP_H + 2, MAP_W * 2 + 4, ' ');
-//    for (int i = map  ToWorldX(0); i < mapToWorldX(0) + MAP_W; ++i)
-//        putChar()
 
-
-    /* Debug code
-        for (int i = 0; i < WIN_H; ++i)
+    // Draw map from a matrix
+    for (int i = 0; i < MAP_H; ++i)
+    {
+        for (int j = 0; j < MAP_W; ++j)
         {
-            for (int j = 0; j < WIN_W; ++j)
+            if (my_map[i][j] != MAP_EMPTY)
             {
-                if (my_map[i][j] != MAP_EMPTY)
-                {
-                    setBackColor(RED);
-                    putChar2(i, j, ' ');
-                }
+                setBackColor(MAP_COL);
+                putChar2(mapToWorldY(i), mapToWorldX(j), ' ');
             }
         }
-    */
+    }
+
+    /* Debug code
+    for (int i = 0; i < MAP_H; ++i)
+    {
+        for (int j = 0; j < MAP_W; ++j)
+        {
+            if (my_map[i][j] != MAP_EMPTY)
+            {
+                setBackColor(RED);
+                putChar2(mapToWorldY(i), mapToWorldX(j), ' ');
+            }
+        }
+    }
+    /* */
 }
 
 void drawScore()
 {
     // Display current score while playing
+    goRC(1, mapToWorldX(0) * 2);
+    printf("Score: %3d", score);
 }
 
 // ---------------------------------------------

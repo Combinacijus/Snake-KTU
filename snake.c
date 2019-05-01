@@ -7,9 +7,10 @@ void initSnake()
     snake.len = START_LEN;
     snake.dir = 'd';
     rainbow_mode_enabled = false;
+    score = 0;
 
-    int start_y = mapToWorldY(0) + MAP_H / 2; // Starting y position
-    int start_x = mapToWorldX(0) + MAP_W / 2; // Starting x position
+    int start_y = mapToWorldY(0) + MAP_H / 2 - 1;   // Starting y position
+    int start_x = mapToWorldX(0) + MAP_W / 2;       // Starting x position
 
     int i;
     int j = start_x;
@@ -34,9 +35,6 @@ void initSnake()
     waitForAnyKey();
     goRC(start_y, start_x - 7);
     printf("                      ");
-
-    // Food
-    placeFoodRandomly(&food);
 }
 
 void drawSnake()
@@ -70,6 +68,9 @@ void drawSnake()
 
 void updateSnake()
 {
+    // TODO changeable frame rate
+    Sleep(1000 / FPS);
+
     snakeMove(snake);
     snakeUpdateCollisionMap();
 
@@ -77,9 +78,6 @@ void updateSnake()
         gameover();
 
     updateFood();
-
-    // TODO changeable frame rate
-    Sleep(1000 / FPS);
 }
 
 void snakeMove()
@@ -122,15 +120,15 @@ void snakeUpdateCollisionMap()
 {
     int ind;
     ind = warpIndex(snake.head - 1, SEG_NUM); // Segment No2
-    my_map[snake.pos[ind].y][snake.pos[ind].x] = MAP_SNAKE;
+    my_map[worldToMapY(snake.pos[ind].y)][worldToMapX(snake.pos[ind].x)] = MAP_SNAKE;
 
     ind = warpIndex(snake.head - snake.len, SEG_NUM); // Last segment
-    my_map[snake.pos[ind].y][snake.pos[ind].x] = MAP_EMPTY;
+    my_map[worldToMapY(snake.pos[ind].y)][worldToMapX(snake.pos[ind].x)] = MAP_EMPTY;
 }
 
 bool hasSnakeCollided()
 {
-    if (my_map[snake.pos[snake.head].y][snake.pos[snake.head].x] != 0)
+    if (my_map[worldToMapY(snake.pos[snake.head].y)][worldToMapX(snake.pos[snake.head].x)] != 0)
         return true;
 
     return false;
@@ -174,12 +172,8 @@ void debugSnake()
 void gameover()
 {
     setColors(BLACK, WHITE);
-    // ADD FANCY GAME OVER SCREEN HERE \/
-    goRC(0, 0);
-    printf("Game Over. Press any key to continue");
 
-    Sleep(1000);
-
+    drawGameOverScreen();
 
     // Reset collision map
     for (int i = mapToWorldY(0); i < mapToWorldY(0) + WIN_H; ++i)
@@ -191,9 +185,26 @@ void gameover()
         }
     }
 
+    Sleep(750);             // To filter accidental key presses just after death
+    flushInputBuffer();
     waitForAnyKey();
+    flushInputBuffer();
     system("cls");
     restart();
+}
+
+void drawGameOverScreen()
+{
+    // ADD FANCY GAME OVER SCREEN HERE \/
+
+    goRC(0, 0);
+    printf("Game Over. Press any key to continue");
+}
+
+void initFood()
+{
+    placeFoodRandomly(&food);
+    food_spec.time_left = 0;
 }
 
 void drawFood()
@@ -202,14 +213,14 @@ void drawFood()
     if (food.enabled)
     {
         setColors(FOOD_COL, WHITE);
-        putChar2(food.pos.y, food.pos.x, '*');
+        putChar2(food.pos.y, food.pos.x, ' ');
     }
 
     // Draw special food
     if (food_spec.enabled)
     {
         setColors(FOOD_SPEC_COL, WHITE);
-        putChar2(food_spec.pos.y, food_spec.pos.x, '*');
+        putChar2(food_spec.pos.y, food_spec.pos.x, ' ');
     }
 }
 
@@ -217,24 +228,26 @@ void updateFood()
 {
     struct Vec2 snk_pos = snake.pos[snake.head];
 
-    // Normal food
+    // Normal food check if eaten
     if ((snk_pos.y == food.pos.y) && (snk_pos.x == food.pos.x))
     {
         addSnakeSegment();
+        ++score;
         placeFoodRandomly(&food);
     }
 
-    // Special food
+    // Special food check if eaten
     if ((snk_pos.y == food_spec.pos.y) && (snk_pos.x == food_spec.pos.x) && food_spec.enabled)
     {
         addSnakeSegment();
+        score += 1 + (food_spec.time_left / 7);     // Faster you eat it better the score
         food_spec.enabled = false;
         rainbow_mode_enabled = true;
     }
 
     food_spec.time_left -= 1;
 
-    if (food_spec.time_left == 0 && food_spec.enabled)
+    if (food_spec.time_left <= 0 && food_spec.enabled)
     {
         food_spec.enabled = false;
         setBackColor(BACK_COL);
@@ -255,7 +268,7 @@ void placeFoodRandomly(struct Food *_food)
     _food->pos.y = mapToWorldY(0) + (rand() % MAP_H);
     _food->pos.x = mapToWorldX(0) + (rand() % MAP_W);
     }
-    while (my_map[_food->pos.y][_food->pos.x] != MAP_EMPTY);
+    while (my_map[worldToMapY(_food->pos.y)][worldToMapX(_food->pos.x)] != MAP_EMPTY);
 
     _food->enabled = true;
     _food->time_left = FOOD_LIFETIME;
