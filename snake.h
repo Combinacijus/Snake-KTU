@@ -6,6 +6,7 @@
 
 
 void initSnake();
+void restartSnake();
 void drawSnake();
 void updateSnake();
 void snakeMove();

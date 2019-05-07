@@ -6,15 +6,16 @@ void initSnake()
     snake.head = START_LEN - 1;
     snake.len = START_LEN;
     snake.dir = 'd';
-    rainbow_mode_enabled = false;
+    snake.rainbow_enabled = false;
+    snake.rainbow_time = 0;
     score = 0;
+    last_score = 0;
 
     int start_y = mapToWorldY(0) + MAP_H / 2 - 1;   // Starting y position
     int start_x = mapToWorldX(0) + MAP_W / 2;       // Starting x position
 
-    int i;
     int j = start_x;
-    for (i = snake.head; i >= 0; --i) // Creates initial snake segments
+    for (int i = snake.head; i >= 0; --i) // Creates initial snake segments
     {
         snake.pos[i].y = start_y;
         snake.pos[i].x = j;
@@ -23,10 +24,13 @@ void initSnake()
         setBackColor(SNK_COL); // Draw initial snake body
         putChar2(snake.pos[i].y, snake.pos[i].x, ' ');
 
-        if (i != snake.head) // Add snake to collion map
-            my_map[snake.pos[i].y][snake.pos[i].y] = MAP_SNAKE;
+        if (i != snake.head) // Add snake to collision map
+        {
+            my_map[worldToMapY(snake.pos[i].y)][worldToMapX(snake.pos[i].x)] = MAP_SNAKE;
+        }
     }
     drawSnake(snake);
+    waitForAnyKey();
 
     // Info text
     setColors(BACK_COL, WHITE);
@@ -35,6 +39,14 @@ void initSnake()
     waitForAnyKey();
     goRC(start_y, start_x - 7);
     printf("                      ");
+}
+
+void restartSnake()
+{
+    readMapFromFile(MAP_DEFAULT);      // TODO make map selection in menu
+    drawMap();                         // Map is drawn once
+    initSnake();
+    initFood();
 }
 
 void drawSnake()
@@ -52,7 +64,7 @@ void drawSnake()
     putChar2(snake.pos[ind].y, snake.pos[ind].x, ' ');
 
     // Draw segment No2
-    if (rainbow_mode_enabled)
+    if (snake.rainbow_enabled)
     {
         setBackColor(rainbow[ind_col]);
         ind_col = warpIndex(++ind_col, RAINBOW_N);
@@ -77,15 +89,28 @@ void updateSnake()
     if (hasSnakeCollided())
         gameover();
 
-    updateFood();
+    // Disable rainbow mode
+    if (snake.rainbow_enabled)
+    {
+        snake.rainbow_time++;
+        if (snake.rainbow_time >= RAINBOW_TIME)
+        {
+            snake.rainbow_enabled = false;
+            snake.rainbow_time = 0;
+        }
+    }
+    else
+    {
+        snake.rainbow_time = 0;
+    }
 }
 
 void snakeMove()
 {
     // Change heading direction
     char c = getKeyInput();
-    if ((c == 'w' && snake.dir != 's') || (c == 'a' && snake.dir != 'd') ||
-            (c == 's' && snake.dir != 'w')|| (c == 'd' && snake.dir != 'a'))
+    if ((c == KEY_UP && snake.dir != KEY_DOWN) || (c == KEY_LEFT && snake.dir != KEY_RIGHT) ||
+            (c == KEY_DOWN && snake.dir != KEY_UP)|| (c == KEY_RIGHT && snake.dir != KEY_LEFT))
     {
         snake.dir = c;
     }
@@ -95,16 +120,16 @@ void snakeMove()
     int x = snake.pos[snake.head].x;
     switch (snake.dir) // Move to one side
     {
-    case 'w':
+    case KEY_UP:
         --y;
         break;
-    case 'a':
+    case KEY_LEFT:
         --x;
         break;
-    case 's':
+    case KEY_DOWN:
         ++y;
         break;
-    case 'd':
+    case KEY_RIGHT:
         ++x;
         break;
     }
@@ -189,8 +214,9 @@ void gameover()
     flushInputBuffer();
     waitForAnyKey();
     flushInputBuffer();
-    system("cls");
-    restart();
+    state_cur = STATE_MENU;
+//    system("cls");
+//    restartSnake();
 }
 
 void drawGameOverScreen()
@@ -204,7 +230,6 @@ void drawGameOverScreen()
 void initFood()
 {
     placeFoodRandomly(&food);
-    food_spec.time_left = 0;
 }
 
 void drawFood()
@@ -233,6 +258,9 @@ void updateFood()
     {
         addSnakeSegment();
         ++score;
+        if (snake.rainbow_enabled) // Add extra score in rainbow mode
+            ++score;
+
         placeFoodRandomly(&food);
     }
 
@@ -240,33 +268,39 @@ void updateFood()
     if ((snk_pos.y == food_spec.pos.y) && (snk_pos.x == food_spec.pos.x) && food_spec.enabled)
     {
         addSnakeSegment();
-        score += 1 + (food_spec.time_left / 7);     // Faster you eat it better the score
+        score += 1 + (food_spec.time_left / 10);     // Faster you eat it better the score
         food_spec.enabled = false;
-        rainbow_mode_enabled = true;
+        snake.rainbow_enabled = true;
+        snake.rainbow_time = 0;
+        last_score = score;
     }
 
-    food_spec.time_left -= 1;
-
-    if (food_spec.time_left <= 0 && food_spec.enabled)
+    if (food_spec.enabled)
     {
-        food_spec.enabled = false;
-        setBackColor(BACK_COL);
-        putChar2(food_spec.pos.y, food_spec.pos.x, ' '); // Clear food
+        --food_spec.time_left;
+        if (food_spec.time_left <= 0)
+        {
+            // Clear spec_food
+            food_spec.enabled = false;
+            last_score = score;
+            setBackColor(BACK_COL);
+            putChar2(food_spec.pos.y, food_spec.pos.x, ' ');
+        }
     }
 
-    if (food_spec.time_left <= -FOOD_GEN_TIME / 2)
-        rainbow_mode_enabled = false;
-
-    if (food_spec.time_left <= -FOOD_GEN_TIME)
+    if (!food_spec.enabled && score - last_score >= FOOD_MIN_SCORE_DIF)
+    {
         placeFoodRandomly(&food_spec);
+        food_spec.enabled = true;
+    }
 }
 
 void placeFoodRandomly(struct Food *_food)
 {
     do
     {
-    _food->pos.y = mapToWorldY(0) + (rand() % MAP_H);
-    _food->pos.x = mapToWorldX(0) + (rand() % MAP_W);
+        _food->pos.y = mapToWorldY(0) + (rand() % MAP_H);
+        _food->pos.x = mapToWorldX(0) + (rand() % MAP_W);
     }
     while (my_map[worldToMapY(_food->pos.y)][worldToMapX(_food->pos.x)] != MAP_EMPTY);
 

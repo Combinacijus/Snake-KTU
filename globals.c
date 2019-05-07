@@ -3,18 +3,44 @@
 // Global variables definition
 struct Snake snake;
 struct Food food, food_spec;
-int my_map[MAP_H][MAP_W];
-int rainbow[RAINBOW_N];
-bool rainbow_mode_enabled = false;
-int rainbow[RAINBOW_N] = {-4, 4, 6, 2, -5, -7, 5};
-int score = 0;
 
+int my_map[MAP_H][MAP_W] = {};
+
+int rainbow[RAINBOW_N];
+int rainbow[RAINBOW_N] = {-4, 4, 6, 2, -5, -7, 5};
+
+int score = 0;
+int last_score = 0;
+
+int state_cur = STATE_MENU;
+int state_prev = -1;
 
 char getKeyInput()
 {
     char c = 0;
     if (kbhit())
+    {
         c = getch();
+
+        // Arrows to WASD
+        if (c == -32)
+        {
+            c = getch();
+
+            if (c == 72)
+                c = KEY_UP;
+            else if (c == 77)
+                c = KEY_RIGHT;
+            else if (c == 80)
+                c = KEY_DOWN;
+            else if (c == 75)
+                c = KEY_LEFT;
+            else if (c == ' ' || c == 13) // Space or enter
+                c = KEY_SELECT;
+        }
+    }
+
+    c = toLower(c);
 
     return c;
 }
@@ -49,6 +75,14 @@ void flushInputBuffer()
 {
     while (kbhit())
         getch();
+}
+
+char toLower(char c)
+{
+    if (c >= 'A' && c <= 'Z')
+        c += 'a' - 'A';
+
+    return c;
 }
 
 int mapToWorldY(int y)

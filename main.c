@@ -11,110 +11,105 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "screenKTU.h"
-#include "snake.h"
 #include "globals.h"
+#include "snake.h"
+#include "menu.h"
+#include "map.h"
 
 
 // -------------------- FUNCTION HEADERS --------------------
-void restart();
-void readMapFromFile(char filename[]); // TODO
-void drawMap();    // TODO
 void drawScore();  // TODO
-
-// Menu functions
-void updateMenu(); // TODO
-void drawMenu();   // TODO
-
+void onStateChange();
+void printKeyCode();
 // -------------------------- MAIN --------------------------
 int main()
 {
-    /**/
+//    printKeyCode();
+
     setCursorForm(0); // Makes cursor invisible
-    restart();
 
     while(1) // Game loop
     {
+        static bool state_change = true;
+
+        // Press 'q' to exit
+        /* TODO FIX
+        if (getKeyInput() == KEY_QUIT)
+        {
+            if (state_cur == STATE_MENU)
+                state_cur = STATE_EXIT;
+            else
+                state_cur = STATE_MENU;
+        }
+        */
+
+        if (state_prev != state_cur)
+        {
+            state_prev = state_cur;
+            state_change = true;
+            onStateChange();
+        }
+        else
+        {
+            state_change = false;
+        }
+
         setColors(BLACK, WHITE);
 
-        drawScore();
+        switch (state_cur)
+        {
+        case STATE_MENU:
+            if (state_change)
+                initMenu();
 
-        updateFood();
-        drawFood();
+            if (kbhit())
+            {
+                updateMenu();
+                drawMenu();
+            }
+            break;
 
-        updateSnake();
-        drawSnake();
+        case STATE_GAME:
+            if (state_change)
+                restartSnake();
+
+            drawScore();
+
+            updateFood();
+            drawFood();
+
+            updateSnake();
+            drawSnake();
+            break;
+
+        case STATE_HIGHSCORES:
+            if (state_change)
+                drawHighscores();
+            break;
+
+        case STATE_INFO:
+            if (state_change)
+                drawInfo();
+            break;
+
+        case STATE_EXIT:
+            system("cls");
+            goRC(10, 10);
+            setColors(GREEN, WHITE);
+            printf("Thanks for playing!");
+            goRC(15, 10);
+            Sleep(300);
+            return 0;
+        }
 
 //        debugSnake();
+//        debugMap();
     }
 
     return 0;
 }
 
 // ------------------ FUNCTION DEFINITIONS ------------------
-void restart()
-{
-    readMapFromFile("map2.txt");    // TODO make map selection in menu
-    drawMap();                      // Map is drawn once
-    initSnake();
-    initFood();
-}
-
-void readMapFromFile(char filename[])
-{
-    FILE *f;
-    f = fopen(filename, "r");
-    char ch;
-
-    goRC(0,0);
-    for (int i = 0; i < MAP_H; ++i)
-    {
-        for (int j = 0; j < MAP_W; ++j)
-        {
-            ch = getc(f);
-            ch -= '0'; // To int
-            my_map[i][j] = ch;
-        }
-        getc(f);        // Discards new line character
-    }
-
-    fclose(f);
-}
-
-void drawMap()
-{
-    // Default wapr borders around map
-    setBackColor(MAP_COL - BRIGHT);
-    drawBorder(mapToWorldY(-1), mapToWorldX(0) * 2 - 1, MAP_H + 2, MAP_W * 2 + 2, ' ');
-    drawBorder(mapToWorldY(-1), mapToWorldX(0) * 2 - 2, MAP_H + 2, MAP_W * 2 + 4, ' ');
-
-    // Draw map from a matrix
-    for (int i = 0; i < MAP_H; ++i)
-    {
-        for (int j = 0; j < MAP_W; ++j)
-        {
-            if (my_map[i][j] != MAP_EMPTY)
-            {
-                setBackColor(MAP_COL);
-                putChar2(mapToWorldY(i), mapToWorldX(j), ' ');
-            }
-        }
-    }
-
-    /* Debug code
-    for (int i = 0; i < MAP_H; ++i)
-    {
-        for (int j = 0; j < MAP_W; ++j)
-        {
-            if (my_map[i][j] != MAP_EMPTY)
-            {
-                setBackColor(RED);
-                putChar2(mapToWorldY(i), mapToWorldX(j), ' ');
-            }
-        }
-    }
-    /* */
-}
-
 void drawScore()
 {
     // Display current score while playing
@@ -122,13 +117,20 @@ void drawScore()
     printf("Score: %3d", score);
 }
 
-// ---------------------------------------------
-void updateMenu()
+void onStateChange()
 {
-    // Make manu interactable with selectable buttons
+    setColors(BLACK, WHITE);
+    system("cls");
 }
 
-void drawMenu()
+void printKeyCode()
 {
-    // start game, highscores, info, exit, etc
+    setColors(BLACK, WHITE);
+    while(1)
+    {
+        goRC(10, 2);
+        char c = getKeyInput();
+        printf("Code: %4c,  %4d", c, c);
+        Sleep(400);
+    }
 }
