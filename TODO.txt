@@ -1,7 +1,11 @@
 main.c
+    drawScore();
+
+map.c
     *readMapFromFile();
     *drawMap();
-    drawScore();
+
+menu.c
     updateMenu();
     drawMenu();
 
@@ -18,5 +22,5 @@ Create more maps:
 
 Highscores:
     data saved in a file
-    name: score
+    name score
 
