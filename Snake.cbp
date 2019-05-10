@@ -36,6 +36,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="globals.h" />
+		<Unit filename="highscores.txt" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

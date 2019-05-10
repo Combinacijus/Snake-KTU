@@ -33,12 +33,6 @@ void putChar(int row, int column, char c){
     goRC(row, column);
     putchar(c);
 }
-void putChar2(int row, int column, char c){
-    goRC(row, column * 2);
-    printf("%c%c", c, c);
-//    putchar(c);
-//    putchar(c);
-}
 void putString(int row, int column, char *string){
     goRC(row, column);
     char convert[80];
