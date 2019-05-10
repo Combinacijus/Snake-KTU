@@ -1,18 +1,31 @@
+Star (*) means DONE
+
 main.c
-    drawScore();
+    drawScore()
+        fancy score
+    while(1)
+        case STATE_EXIT
+            draw fancy goodbye screen
+        case STATE_OPTIONS
+            draw fancy text
 
 map.c
     *readMapFromFile();
     *drawMap();
 
 menu.c
-    updateMenu();
-    drawMenu();
+    *updateMenu();
+    *drawMenu();
+    updateHighscores()
+        draw fancy border
+    drawHighscores()
+        draw fancy table
 
 snake.h & snake.c
     void drawGameOverScreen();
+        draw fancy screen
 
-Create more maps:
+Create more maps
     map size is 20 x 20
     0 - empty
     1 - wall
@@ -20,7 +33,8 @@ Create more maps:
     don't put wall on the snake
     increment MAPS_COUNT in globals.h
 
-Highscores:
-    data saved in a file
-    name score
+Other
+    There might be other improvement that
+    need to be done not mentioned in here
 
+PS. FANCY

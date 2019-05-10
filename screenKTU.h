@@ -36,7 +36,6 @@
 
 void goRC(int row, int column);
 void putChar(int row, int column, char c);
-void putChar2(int row, int column, char c);
 void putString(int row, int column, char *string);
 
 void setBackColor(int backColor);

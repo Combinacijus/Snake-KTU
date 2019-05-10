@@ -45,6 +45,7 @@ void restartSnake()
 {
     readMapFromFile(MAP_DEFAULT);      // TODO make map selection in menu
     drawMap();                         // Map is drawn once
+    drawScore();
     initSnake();
     initFood();
 }
@@ -81,13 +82,16 @@ void drawSnake()
 void updateSnake()
 {
     // TODO changeable frame rate
-    Sleep(1000 / FPS);
+    Sleep(1000 / snake.speed);
 
     snakeMove(snake);
     snakeUpdateCollisionMap();
 
     if (hasSnakeCollided())
+    {
         gameover();
+        return;
+    }
 
     // Disable rainbow mode
     if (snake.rainbow_enabled)
@@ -108,11 +112,11 @@ void updateSnake()
 void snakeMove()
 {
     // Change heading direction
-    char c = getKeyInput();
-    if ((c == KEY_UP && snake.dir != KEY_DOWN) || (c == KEY_LEFT && snake.dir != KEY_RIGHT) ||
-            (c == KEY_DOWN && snake.dir != KEY_UP)|| (c == KEY_RIGHT && snake.dir != KEY_LEFT))
+    char inp = input_global;
+    if ((inp == KEY_UP && snake.dir != KEY_DOWN) || (inp == KEY_LEFT && snake.dir != KEY_RIGHT) ||
+            (inp == KEY_DOWN && snake.dir != KEY_UP)|| (inp == KEY_RIGHT && snake.dir != KEY_LEFT))
     {
-        snake.dir = c;
+        snake.dir = inp;
     }
 
     // Move to that direction
@@ -212,9 +216,20 @@ void gameover()
 
     Sleep(750);             // To filter accidental key presses just after death
     flushInputBuffer();
-    waitForAnyKey();
-    flushInputBuffer();
-    state_cur = STATE_MENU;
+
+    if (updateHighscores())
+    {
+        saveHighscores();
+        state_cur = STATE_HIGHSCORES;
+    }
+    else
+    {
+        state_cur = STATE_MENU;
+        waitForAnyKey();
+        flushInputBuffer();
+    }
+
+
 //    system("cls");
 //    restartSnake();
 }
@@ -223,7 +238,7 @@ void drawGameOverScreen()
 {
     // ADD FANCY GAME OVER SCREEN HERE \/
 
-    goRC(0, 0);
+    goRC(10, 15);
     printf("Game Over. Press any key to continue");
 }
 
@@ -268,7 +283,7 @@ void updateFood()
     if ((snk_pos.y == food_spec.pos.y) && (snk_pos.x == food_spec.pos.x) && food_spec.enabled)
     {
         addSnakeSegment();
-        score += 1 + (food_spec.time_left / 10);     // Faster you eat it better the score
+        score += 2 + (food_spec.time_left / 10) + max(-1, (snake.speed - 10) / 2);     // Faster you eat it better the score
         food_spec.enabled = false;
         snake.rainbow_enabled = true;
         snake.rainbow_time = 0;
