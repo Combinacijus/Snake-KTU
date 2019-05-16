@@ -7,7 +7,7 @@ struct HScore hscores[HSCORES_NUM];
 
 int my_map[MAP_H][MAP_W] = {};
 int map_offy = 0;
-int map_offx = -5;
+int map_offx = 2;
 
 int rainbow[RAINBOW_N];
 int rainbow[RAINBOW_N] = {-4, 4, 6, 2, -5, -7, 5};

@@ -214,9 +214,6 @@ void gameover()
         }
     }
 
-    Sleep(750);             // To filter accidental key presses just after death
-    flushInputBuffer();
-
     if (updateHighscores())
     {
         saveHighscores();
@@ -236,10 +233,241 @@ void gameover()
 
 void drawGameOverScreen()
 {
-    // ADD FANCY GAME OVER SCREEN HERE \/
+    int sleep_time = 4;
 
-    goRC(10, 15);
-    printf("Game Over. Press any key to continue");
+    setBackColor(RED);
+    //G
+    for(int i=10; i>5; i--)
+    {
+        goRC(10, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=10; i<15; i++)
+    {
+        goRC(i, 5);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=5; i<10; i++)
+    {
+        goRC(15, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=15; i>13; i--)
+    {
+        goRC(i, 10);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=10; i>7; i--)
+    {
+        goRC(13, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+
+    //A
+    for(int i=15; i>10; i--)
+    {
+        goRC(i, 12);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=12; i<17; i++)
+    {
+        goRC(10, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=10; i<=15; i++)
+    {
+        goRC(i, 17);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=12; i<17; i++)
+    {
+        goRC(13, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+
+    //M
+    for(int i=15; i>10; i--)
+    {
+        goRC(i, 19);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=19; i<25; i++)
+    {
+        goRC(10, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=10; i<=15; i++)
+    {
+        goRC(i, 25);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=10; i<=15; i++)
+    {
+        goRC(i, 22);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+
+    //E
+    for(int i=10; i<=15; i++)
+    {
+        goRC(i, 27);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=27; i<32; i++)
+    {
+        goRC(10, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=27; i<32; i++)
+    {
+        goRC(13, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=27; i<32; i++)
+    {
+        goRC(15, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+
+    //O
+    for(int i=42; i>37; i--)
+    {
+        goRC(10, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=10; i<15; i++)
+    {
+        goRC(i, 37);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=37; i<42; i++)
+    {
+        goRC(15, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=15; i>10; i--)
+    {
+        goRC(i, 42);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+
+    //V
+    for(int j=0; j<=5; j++)
+    {
+        goRC(10+j, 44+j);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int j=0; j<=5; j++)
+    {
+        goRC(15-j, 49+j);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    //E
+    for(int i=10; i<=15; i++)
+    {
+        goRC(i, 56);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=56; i<61; i++)
+    {
+        goRC(10, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=56; i<61; i++)
+    {
+        goRC(13, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=56; i<61; i++)
+    {
+        goRC(15, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+
+    //R
+    for(int i=15; i>10; i--)
+    {
+        goRC(i, 63);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=63; i<68; i++)
+    {
+        goRC(10, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=10; i<=13; i++)
+    {
+        goRC(i, 68);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int i=63; i<68; i++)
+    {
+        goRC(13, i);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+    for(int j=0; j<3; j++)
+    {
+        goRC(13+j, 66+j);
+        printf(" ");
+        Sleep(sleep_time);
+    }
+
+    // To filter accidental key presses just after death
+    Sleep(100);
+    flushInputBuffer();
+
+    setBackColor(BLACK);
+    char buffer[80];
+    CharToOem("Press 'Enter' to continue", buffer);
+    int i, pos;
+    for(pos=0; buffer[pos]!=0; pos++);
+    int n=pos+20;
+
+    for(i=pos; i<n; i++)
+        buffer[i]=' ';
+
+    drawBorder2(20, 14, 5, n+2);
+    setFontColor(WHITE);
+
+    while(!kbhit())
+    {
+        goRC(22,15);
+        for(i=0; i<n; i++)
+            putchar(buffer[(pos+i)%n]);
+        pos = (pos+1) % n;
+        Sleep(200);
+    }
 }
 
 void initFood()

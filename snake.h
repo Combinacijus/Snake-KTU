@@ -16,7 +16,7 @@ void addSnakeSegment();
 void debugSnake();
 
 void gameover();
-void drawGameOverScreen(); // TODO
+void drawGameOverScreen();
 
 void initFood();
 void drawFood();

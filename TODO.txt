@@ -22,8 +22,8 @@ menu.c
         draw fancy table
 
 snake.h & snake.c
-    void drawGameOverScreen();
-        draw fancy screen
+    *void drawGameOverScreen();
+        *draw fancy screen
 
 Create more maps
     map size is 20 x 20
