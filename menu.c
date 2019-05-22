@@ -2,7 +2,7 @@
 
 // Adjust menuSelect() and MENU_MAIN_ELEM if changed
 char menu_main[MENU_MAIN_ELEM][MENU_ELEM_LEN] =
-    {"Start Game", "Highscore", "Options", "Info", "Exit"};
+{"Start Game", "Highscore", "Options", "Info", "Exit"};
 int menu_selected = 0;
 
 void initMenu()
@@ -84,7 +84,10 @@ void loadHighscores()
     f = fopen(HSCORE_FILE, "r");
 
     if (!f)
-        printf("HSCORES FILE NOT FOUND\n");
+    {
+        f = fopen(HSCORE_FILE, "w"); // Create a high score file
+        f = fopen(HSCORE_FILE, "r"); // Read it
+    }
 
     for (int i = 0; i < HSCORES_NUM; ++i)   // Each line
     {
@@ -108,7 +111,7 @@ void loadHighscores()
                     strcpy(tmp2, &tmp[j]);  // Cut out number part
                     hscores[i].score = atoi(tmp2); // Extract number
 
-                    for (int k = j; k >= 0; --k)  // Removes white spaces from name
+                    for (int k = j; k >= 0; --k)  // Removes white spaces from a name
                     {
                         if (isalpha(tmp[k]) || isdigit(tmp[k]))
                         {
@@ -121,12 +124,6 @@ void loadHighscores()
                 }
             }
         }
-
-//        if (feof(f))    // If file is empty
-//        {
-//            strcpy(hscores[i].name, "Noob");
-//            hscores[i].score = 0;
-//        }
     }
 
     fclose(f);
@@ -153,10 +150,10 @@ bool updateHighscores()
             }
         }
 
+        system("cls");
         do
         {
-            system("cls");
-            setColors(BLACK, WHITE);
+            setColors(BLACK, GREEN);
             goRC(0, 0);
             printf("Congratulation! You are ");
             if (place_ind == 0)
@@ -170,16 +167,35 @@ bool updateHighscores()
             printf("!\n");
             printf("Your score is: %d\n", score);
 
+
             // Ask for name
             setCursorForm(1);
-            printf("Enter your name: ");               // TODO draw fancy border
-            fgets(name, HSCORES_NAME_LEN, stdin);
+            setColors(BLACK, BLUE-BRIGHT);
+            printf("TIP: Use arrow up key for a previuos input \n\n");       // TODO draw fancy border
+            printf("Enter your name: ");       // TODO draw fancy border
+            Sleep(350);             // Accidental inputs filter
+            flushInputBuffer();
+
+            setColors(BLACK, BLUE);
+            fgets(name, HSCORES_NAME_LEN, stdin);   // Read input
             name[strcspn(name, "\n")] = 0;
 
             setCursorForm(0);
 
             // Repeat input if name is invalid
-        } while (strcspn(name, "\0") == 0 || isspace(name[0]));
+            if (strcspn(name, "\0") == 0 || isspace(name[0]))
+            {
+                system("cls");
+                setColors(BLACK, RED);
+                goRC(6, 0);
+                printf("Your name is invalid. Please enter again");
+            }
+            else
+            {
+                break;
+            }
+        }
+        while (true);
 
         for (int i = HSCORES_NUM - 2; i >= place_ind; --i) // Push scores back
         {
@@ -204,6 +220,63 @@ void drawHighscores()
     printf("------------\n");
     for (int i = 0; i < HSCORES_NUM; ++i)
         printf("%2d. %s %d\n", i + 1, hscores[i].name, hscores[i].score);
+}
+
+void menuOptions()
+{
+    static int selected = 0;
+    static int map_num = 0;
+
+    // Update
+    if (input_global == KEY_UP)
+        --selected;
+    else if (input_global == KEY_DOWN)
+        ++selected;
+    selected = warpIndex(selected, 2);
+
+    // Change speed value
+    if (selected == 0) // Speed selection
+    {
+        if (input_global == KEY_RIGHT)
+            ++snake.speed;
+        else if (input_global == KEY_LEFT)
+            --snake.speed;
+        snake.speed = warpIndex2(snake.speed, 1, 30);
+    }
+    else if (selected == 1) // Map selection
+    {
+        if (input_global == KEY_RIGHT)
+            ++map_num;
+        else if (input_global == KEY_LEFT)
+            --map_num;
+
+        // Construct map filename
+        char filename[15];
+        sprintf(filename, "map%d.txt", map_num);
+
+        if (!isFileExist(filename))
+        {
+            map_num = 0;
+            strcpy(map_filename, MAP_DEFAULT);
+        }
+        else
+        {
+            strcpy(map_filename, filename);
+        }
+    }
+
+    // Draw
+    goRC(2, 0);
+    setColors(BLACK, WHITE);
+    printf("                 OPTIONS\n\n");  // TODO fancy text
+    printf("     Left and Right to change value\n");
+
+    printf("\n");
+    printf("       Game Speed: %d      \n", snake.speed);
+    printf("       Map       : %s      \n", map_filename);
+
+    goRC(6 + selected, 6);
+    printf("*");
 }
 
 void drawInfo()

@@ -43,7 +43,6 @@ void initSnake()
 
 void restartSnake()
 {
-    readMapFromFile(MAP_DEFAULT);      // TODO make map selection in menu
     drawMap();                         // Map is drawn once
     drawScore();
     initSnake();

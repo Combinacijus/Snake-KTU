@@ -25,7 +25,7 @@ snake.h & snake.c
     *void drawGameOverScreen();
         *draw fancy screen
 
-Create more maps
+*Create more maps
     map size is 20 x 20
     0 - empty
     1 - wall

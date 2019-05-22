@@ -20,5 +20,6 @@ void saveHighscores();
 void loadHighscores();
 bool updateHighscores();    // Returns true if scores updated
 void drawHighscores();
+void menuOptions();
 void drawInfo();
 void drawExit();

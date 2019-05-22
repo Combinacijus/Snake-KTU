@@ -6,6 +6,7 @@ struct Food food, food_spec;
 struct HScore hscores[HSCORES_NUM];
 
 int my_map[MAP_H][MAP_W] = {};
+char map_filename[15] = MAP_DEFAULT;
 int map_offy = 0;
 int map_offx = 2;
 
@@ -143,3 +144,17 @@ int worldToMapX(int x)
 {
     return x - mapToWorldX(0);
 }
+
+int isFileExist(char filename[])
+{
+    int exists = 1;
+    FILE *f = fopen(filename, "r");
+
+    if (!f)
+        exists = 0;
+
+    fclose(f);
+
+    return exists;
+}
+

@@ -13,7 +13,7 @@
 #define SNK_COL GREEN           // Snake color
 #define SNK_H_COL WHITE         // Snake head color
 #define START_LEN 5             // Snake starting length
-#define SNK_SPEED 13            // Aka frame rate
+#define SNK_SPEED 10            // Aka frame rate
 #define RAINBOW_N 7             // Number of rainbow segments
 #define RAINBOW_TIME 60         // Stop rainbow mode after some moves
 
@@ -80,6 +80,7 @@ extern struct Snake snake;
 extern struct Food food, food_spec;
 extern struct HScore hscores[HSCORES_NUM]; // Highscores data
 extern int my_map[MAP_H][MAP_W];           // Data of map and collision
+extern char map_filename[15];              // Map filename which will be played
 extern int map_offy;                       // Offset of map from usual position y
 extern int map_offx;                       // Offset of map from usual position x
 extern int rainbow[RAINBOW_N];             // Rainbow color palette
@@ -107,3 +108,5 @@ int mapToWorldY(int y);                 // Map space to World space
 int mapToWorldX(int x);
 int worldToMapY(int y);                 // World space to Map space
 int worldToMapX(int x);
+
+int isFileExist(char filename[]);       // Checks if file path exists

@@ -27,6 +27,7 @@ int main()
 {
     srand(time(0));
     snake.speed = SNK_SPEED;
+    readMapFromFile(MAP_DEFAULT);
 //    printKeyCode();
 
     while(1) // Game loop
@@ -46,7 +47,7 @@ int main()
                 state_cur = STATE_MENU;
         }
 
-        // State change
+        // On state change
         if (state_prev != state_cur)
         {
             state_prev = state_cur;
@@ -73,7 +74,10 @@ int main()
 
         case STATE_GAME:
             if (state_change)
+            {
+                readMapFromFile(map_filename);
                 restartSnake();
+            }
 
             drawScore();
 
@@ -98,19 +102,7 @@ int main()
             if (state_change)
                 system("cls");
 
-            goRC(3, 0);
-            setColors(BLACK, WHITE);
-            printf("     OPTIONS\n");  // TODO fancy text
-            printf("     Left and Right to change value\n");
-
-            // Change speed value
-            if (input_global == KEY_RIGHT)
-                ++snake.speed;
-            else if (input_global == KEY_LEFT)
-                --snake.speed;
-            snake.speed = warpIndex2(snake.speed, 1, 30);
-
-            printf("     *Game Speed:%4d", snake.speed);
+            menuOptions();
 
             if (input_global == KEY_SELECT)
                 state_cur = STATE_MENU;
@@ -127,11 +119,9 @@ int main()
             drawExit();
             return 0;
         }
-
 //        debugSnake();
 //        debugMap();
     }
-
 
     return 0;
 }
