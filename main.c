@@ -19,15 +19,25 @@
 
 
 // -------------------- FUNCTION HEADERS --------------------
+void drawImage(char filename[], int y, int x);
 void drawScore();  // TODO
 void onStateChange();
 void printKeyCode();
 // -------------------------- MAIN --------------------------
+
 int main()
 {
+    setCursorForm(0); // Makes cursor invisible
     srand(time(0));
     snake.speed = SNK_SPEED;
     readMapFromFile(MAP_DEFAULT);
+
+    // Intro
+    setBackColor(GRAY);
+    system("cls");
+    drawImage("snek_logo.txt", 1, 45);
+    drawImage("snake_logo_text.txt", 17, 10);
+    Sleep(1500);
 //    printKeyCode();
 
     while(1) // Game loop
@@ -127,6 +137,71 @@ int main()
 }
 
 // ------------------ FUNCTION DEFINITIONS ------------------
+void drawImage(char filename[], int y, int x)
+{
+    // Reading logo
+    int startx = x; // kairio kampo vieta
+    int starty = y;
+    int image_H = 1, image_W = 1;
+    int image[WIN_H * 2][WIN_W * 2];
+
+    FILE *f;
+    f = fopen(filename, "r");
+    char ch;
+    // Read dimensions
+    fscanf(f, "%d", &image_H);
+    fscanf(f, "%d\n", &image_W);
+
+    for (int i = 0; i < image_H; ++i)
+    {
+        for (int j = 0; j < image_W; ++j)
+        {
+            ch = getc(f);
+            ch -= '0'; // To int
+            image[i][j] = ch;
+        }
+        getc(f);        // Discards new line character
+    }
+    fclose(f);
+
+    // Drawing logo
+    for (int i = 0; i < image_H; ++i)
+    {
+        for (int j = 0; j < image_W; ++j)
+        {
+            if (image[i][j] != ' ')
+            {
+                switch (image[i][j])
+                {
+                case 1:
+                    setBackColor(7);//dark gray
+                    break;
+
+                case 8:
+                    setBackColor(0);//black
+                    break;
+
+                case 7:
+                    setBackColor(10);//light green
+                    break;
+
+                case 9:
+                    setBackColor(12);//pink-ish
+                    break;
+                case 4:
+                    setBackColor(2);//dark green
+                    break;
+
+                default:
+                    setBackColor(BLACK);
+                    break;
+                }
+                putChar(i+starty, j+startx, ' ');
+            }
+        }
+    }
+}
+
 void drawScore()
 {
     // Display current score while playing

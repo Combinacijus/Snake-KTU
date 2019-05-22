@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1558533134 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\main.c
+1558555878 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>

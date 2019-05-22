@@ -58,6 +58,8 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="snake.h" />
+		<Unit filename="snake_logo_text.txt" />
+		<Unit filename="snek_logo.txt" />
 		<Extensions>
 			<code_completion />
 			<envvars />
