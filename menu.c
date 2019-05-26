@@ -305,6 +305,9 @@ void drawInfo()
     printf("\n");
     printf("Info: You can change snake's speed in options\n");
     printf("Info: More speed gives more points on special food\n");
+
+    printf("\n\nInfo about sneks:\n");
+    printf("https://www.youtube.com/watch?v=0arsPXEaIUY");
 }
 
 void drawExit()
