@@ -310,10 +310,142 @@ void drawInfo()
 void drawExit()
 {
     system("cls");
-    goRC(10, 50);
-    setColors(GREEN, WHITE);
-    printf("Thanks for playing!"); // TODO fancy goodbye screen
-    setColors(BLACK, WHITE);
-    goRC(15, 10);
-}
+    setFontColor(WHITE);
+    int h=21, w=66;
+    drawBorder( 2,   29, h,w, LINE2);
+    setColors(BLUE, RED);
+    int start=3,start1=30;
+    fillRect(1+start, 3+start1, 1, 4, SYM_BLANK);
+    fillRect(2+start, 1+start1, 2, 2, SYM_BLANK);
+    fillRect(2+start, 7+start1, 1, 2, SYM_BLANK);
+    fillRect(4+start, 3+start1, 1, 2, SYM_BLANK);
+    fillRect(5+start, 5+start1, 1, 2, SYM_BLANK);
+    fillRect(6+start, 7+start1, 2, 2, SYM_BLANK);
+    fillRect(7+start, 1+start1, 1, 2, SYM_BLANK);
+    fillRect(8+start, 3+start1, 1, 4, SYM_BLANK);
 
+    fillRect(1+start, 11+start1, 1, 8, SYM_BLANK);
+    fillRect(2+start, 11+start1, 6, 2, SYM_BLANK);
+    fillRect(4+start, 13+start1, 1, 4, SYM_BLANK);
+    fillRect(8+start, 11+start1, 1, 8, SYM_BLANK);
+
+    fillRect(1+start, 21+start1, 1, 8, SYM_BLANK);
+    fillRect(2+start, 21+start1, 6, 2, SYM_BLANK);
+    fillRect(4+start, 23+start1, 1, 4, SYM_BLANK);
+    fillRect(8+start, 21+start1, 1, 8, SYM_BLANK);
+
+    fillRect(1+start, 33+start1, 1, 2, SYM_BLANK);
+    fillRect(1+start, 41+start1, 1, 2, SYM_BLANK);
+    fillRect(2+start, 35+start1, 1, 2, SYM_BLANK);
+    fillRect(2+start, 39+start1, 1, 2, SYM_BLANK);
+    fillRect(3+start, 37+start1, 6, 2, SYM_BLANK);
+
+    fillRect(1+start, 47+start1, 1, 4, SYM_BLANK);
+    fillRect(2+start, 45+start1, 6, 2, SYM_BLANK);
+    fillRect(2+start, 51+start1, 6, 2, SYM_BLANK);
+    fillRect(8+start, 47+start1, 1, 4, SYM_BLANK);
+
+    fillRect(1+start, 55+start1, 7, 2, SYM_BLANK);
+    fillRect(1+start, 61+start1, 7, 2, SYM_BLANK);
+    fillRect(8+start, 57+start1, 1, 4, SYM_BLANK);
+
+    fillRect(10+start, 7+start1, 8, 2, SYM_BLANK);
+    fillRect(10+start, 19+start1, 1, 4, SYM_BLANK);
+
+    fillRect(11+start, 17+start1, 7, 2, SYM_BLANK);
+    fillRect(11+start, 23+start1, 7, 2, SYM_BLANK);
+    fillRect(15+start, 19+start1, 1, 4, SYM_BLANK);
+    fillRect(17+start, 9+start1, 1, 6, SYM_BLANK);
+
+    fillRect(10+start, 27+start1, 1, 10, SYM_BLANK);
+    fillRect(11+start, 31+start1, 7, 2, SYM_BLANK);
+
+    fillRect(10+start, 39+start1, 1, 8, SYM_BLANK);
+    fillRect(11+start, 39+start1, 6, 2, SYM_BLANK);
+    fillRect(13+start, 41+start1, 1, 4, SYM_BLANK);
+    fillRect(17+start, 39+start1, 1, 8, SYM_BLANK);
+
+    fillRect(10+start, 49+start1, 1, 6, SYM_BLANK);
+    fillRect(11+start, 49+start1, 7, 2, SYM_BLANK);
+    fillRect(11+start, 55+start1, 2, 2, SYM_BLANK);
+    fillRect(13+start, 51+start1, 1, 4, SYM_BLANK);
+    fillRect(14+start, 55+start1, 4, 2, SYM_BLANK);
+
+    int r=12, l=3;
+    int start2=16,start3=28, stulp=0;
+
+    while(!kbhit())
+    {
+        paint(start2+r/2, start3+stulp, CYAN);
+        paint(start2+r/2, start3+stulp+1, CYAN);
+        paint(start2+r/2, start3+stulp+4, CYAN);
+        paint(start2+r/2, start3+stulp+5, CYAN);
+        paint(start2+r/2, start3+stulp+8, CYAN);
+        paint(start2+r/2, start3+stulp+9, CYAN);
+        paint(start2+r/2, start3+stulp+12, CYAN);
+        paint(start2+r/2, start3+stulp+13, CYAN);
+        paint(start2+r/2, start3+stulp+16, CYAN);
+        paint(start2+r/2, start3+stulp+17, CYAN);
+        paint(start2+r/2, start3+stulp+20, CYAN);
+        paint(start2+r/2, start3+stulp+21, CYAN);
+        paint(start2+r/2, start3+stulp+24, CYAN);
+        paint(start2+r/2, start3+stulp+25, CYAN);
+        paint(start2+r/2, start3+stulp+28, CYAN);
+        paint(start2+r/2, start3+stulp+29, CYAN);
+        paint(start2+r/2, start3+stulp+32, CYAN);
+        paint(start2+r/2, start3+stulp+33, CYAN);
+        paint(start2+r/2, start3+stulp+36, CYAN);
+        paint(start2+r/2, start3+stulp+37, CYAN);
+        paint(start2+r/2, start3+stulp+40, CYAN);
+        paint(start2+r/2, start3+stulp+41, CYAN);
+        paint(start2+r/2, start3+stulp+44, CYAN);
+        paint(start2+r/2, start3+stulp+45, CYAN);
+        paint(start2+r/2, start3+stulp+48, CYAN);
+        paint(start2+r/2, start3+stulp+49, CYAN);
+        paint(start2+r/2, start3+stulp+52, CYAN);
+        paint(start2+r/2, start3+stulp+53, CYAN);
+        paint(start2+r/2, start3+stulp+56, CYAN);
+        paint(start2+r/2, start3+stulp+57, CYAN);
+        paint(start2+r/2, start3+stulp+60, CYAN);
+        paint(start2+r/2, start3+stulp+61, CYAN);
+        paint(start2+r/2, start3+stulp+64, CYAN);
+        paint(start2+r/2, start3+stulp+65, CYAN);
+        Sleep(150);
+        paint(start2+r/2, start3+stulp, BLACK);
+        paint(start2+r/2, start3+stulp+1, BLACK);
+        paint(start2+r/2, start3+stulp+4, BLACK);
+        paint(start2+r/2, start3+stulp+5, BLACK);
+        paint(start2+r/2, start3+stulp+8, BLACK);
+        paint(start2+r/2, start3+stulp+9, BLACK);
+        paint(start2+r/2, start3+stulp+12, BLACK);
+        paint(start2+r/2, start3+stulp+13, BLACK);
+        paint(start2+r/2, start3+stulp+16, BLACK);
+        paint(start2+r/2, start3+stulp+17, BLACK);
+        paint(start2+r/2, start3+stulp+20, BLACK);
+        paint(start2+r/2, start3+stulp+21, BLACK);
+        paint(start2+r/2, start3+stulp+24, BLACK);
+        paint(start2+r/2, start3+stulp+25, BLACK);
+        paint(start2+r/2, start3+stulp+28, BLACK);
+        paint(start2+r/2, start3+stulp+29, BLACK);
+        paint(start2+r/2, start3+stulp+32, BLACK);
+        paint(start2+r/2, start3+stulp+33, BLACK);
+        paint(start2+r/2, start3+stulp+36, BLACK);
+        paint(start2+r/2, start3+stulp+37, BLACK);
+        paint(start2+r/2, start3+stulp+40, BLACK);
+        paint(start2+r/2, start3+stulp+41, BLACK);
+        paint(start2+r/2, start3+stulp+44, BLACK);
+        paint(start2+r/2, start3+stulp+45, BLACK);
+        paint(start2+r/2, start3+stulp+48, BLACK);
+        paint(start2+r/2, start3+stulp+49, BLACK);
+        paint(start2+r/2, start3+stulp+52, BLACK);
+        paint(start2+r/2, start3+stulp+53, BLACK);
+        paint(start2+r/2, start3+stulp+56, BLACK);
+        paint(start2+r/2, start3+stulp+57, BLACK);
+        paint(start2+r/2, start3+stulp+60, BLACK);
+        paint(start2+r/2, start3+stulp+61, BLACK);
+        paint(start2+r/2, start3+stulp+61, BLACK);
+        paint(start2+r/2, start3+stulp+64, BLACK);
+        paint(start2+r/2, start3+stulp+65, BLACK);
+        stulp = (stulp+1)%l;
+    }
+}

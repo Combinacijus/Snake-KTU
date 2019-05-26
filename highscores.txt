@@ -1,10 +1,10 @@
 Gintaras 32
 Gintaras 30
 Gintaras 25
+GG 16
+a 4
 Gintaras 2
 Gintaras 2
-Gintaras 1
-Gintaras 1
 Gintaras 1
 Gintaras 1
 Gintaras 1
