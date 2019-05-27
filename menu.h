@@ -5,8 +5,8 @@
 
 #define MENU_MAIN_ELEM 5    // Main menu number of elements
 #define MENU_ELEM_LEN 20    // Element max length
-#define MENU_OFFX 3         // Offset from the left
-#define MENU_OFFY 4         // Offset from the top
+#define MENU_OFFX 53         // Offset from the left
+#define MENU_OFFY 12         // Offset from the top
 
 extern char menu_main[MENU_MAIN_ELEM][MENU_ELEM_LEN];
 extern int menu_selected;

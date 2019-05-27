@@ -52,7 +52,7 @@ void readMapFromFile(char filename[])
             ch -= '0'; // To int
             my_map[i][j] = ch;
         }
-        getc(f);        // Discards new line character
+        while ('\n' != getc(f));        // Discards all left line
     }
 
     fclose(f);

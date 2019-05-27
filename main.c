@@ -38,6 +38,7 @@ int main()
     drawImage("snek_logo.txt", 1, 45);
     drawImage("snake_logo_text.txt", 17, 10);
     Sleep(1500);
+    flushInputBuffer();
 //    printKeyCode();
 
     while(1) // Game loop
@@ -75,7 +76,10 @@ int main()
         {
         case STATE_MENU:
             if (state_change)
+            {
                 initMenu();
+                drawImage("snek_logo.txt", 8, 19);
+            }
 
             updateMenu();
             drawMenu();

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1558555878 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\main.c
+1558961223 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -28,11 +28,11 @@
 	"screenKTU.h"
 	"globals.h"
 
-1558951455 c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\globals.h
+1558961110 c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\globals.h
 	<stdbool.h>
 	<stdio.h>
 
-1558532073 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\globals.c
+1558960041 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\globals.c
 	"globals.h"
 
 1557257606 c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\map.h
@@ -42,11 +42,11 @@
 1558948963 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\menu.c
 	"menu.h"
 
-1558950793 c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\menu.h
+1558960534 c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\menu.h
 	"screenKTU.h"
 	"globals.h"
 	<ctype.h>
 
-1557257507 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\map.c
+1558961043 source:c:\users\gintaras\onedrive\dokumentai\codeblock projects\c projects\snake\map.c
 	"map.h"
 

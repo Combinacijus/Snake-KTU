@@ -75,9 +75,11 @@ char getKey()
                 c = KEY_DOWN;
             else if (c == 75)
                 c = KEY_LEFT;
-            else if (c == KEY_SELECT) // Space or enter
+            else if (c == KEY_SELECT) // Enter
                 c = KEY_SELECT;
         }
+        if (c == 32) // Space
+            c = KEY_SELECT;
     }
 
     c = toLower(c);
