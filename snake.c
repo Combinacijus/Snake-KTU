@@ -215,7 +215,6 @@ void gameover()
 
     if (updateHighscores())
     {
-        saveHighscores();
         state_cur = STATE_HIGHSCORES;
     }
     else

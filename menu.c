@@ -206,6 +206,8 @@ bool updateHighscores()
         // Push to that place
         hscores[place_ind].score = score;
         strcpy(hscores[place_ind].name, name);
+
+        saveHighscores();
     }
 
     return is_updated;

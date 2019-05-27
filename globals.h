@@ -7,7 +7,7 @@
 #define MAP_W 20                // Map width
 #define MAP_H 20                // Map width
 #define BACK_COL BLACK          // Default background color
-#define SEG_NUM WIN_W * WIN_H   // Number of max snake segments
+#define SEG_NUM MAP_W * MAP_H   // Number of max snake segments
 
 // Snake values
 #define SNK_COL GREEN           // Snake color
@@ -97,8 +97,8 @@ extern int input_buff_len;                 // Current size of buffer
 
 
 void putChar2(int row, int column, char c); // Double char (square)
-char getKeyInput();                         // Returns key pressed
-char getKey();                              // Limits input buffer size
+char getKeyInput();                         // Returns key pressed / Limits input buffer size
+char getKey();                              // Reads input and converts it to internal representation of a key
 int warpIndex(int ind, int len);
 int warpIndex2(int ind, int a, int b);
 void waitForAnyKey();

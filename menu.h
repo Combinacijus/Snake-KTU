@@ -12,9 +12,9 @@ extern char menu_main[MENU_MAIN_ELEM][MENU_ELEM_LEN];
 extern int menu_selected;
 
 
-void initMenu();   // TODO
-void updateMenu(); // TODO
-void drawMenu();   // TODO
+void initMenu();
+void updateMenu();
+void drawMenu();
 void menuSelect();
 void saveHighscores();
 void loadHighscores();
