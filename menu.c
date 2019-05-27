@@ -243,7 +243,7 @@ void menuOptions()
             ++snake.speed;
         else if (input_global == KEY_LEFT)
             --snake.speed;
-        snake.speed = warpIndex2(snake.speed, 1, 30);
+        snake.speed = warpIndex2(snake.speed, 1, 101);
     }
     else if (selected == 1) // Map selection
     {
